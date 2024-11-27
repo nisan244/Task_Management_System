@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- <h1 class="text-center">This is Show task menu page!</h1> -->
+
+<div class="d-flex flex-wrap justify-content-center px-5 pt-5">
+    {% for task in data %}
+   
+        <div class="card col-sm-12 col-md-3 m-2 p-1">
+            <div class="card-body">
+                <h5 class="card-title"><b>{{task.id}}. {{task.task_Title}}</b></h5>
+                <h5 class="card-subtitle mt-2 mb-2"><b>Assigned date : </b><small>{{task.assign_date}}</small></h5>
+                <p class="card-text">{{task.task_Description}}</p>
+                <p><b>Category : </b>
+                    {% for cate in task.category.all %}
+                    <button class="btn btn-primary btn-sm m-1" type="button" disabled>{{cate.name}}</button>
+
+                    {% endfor %}
+                </p>
+                {% if task.is_completed %}
+                    <h5 class="bg-success w-auto m-auto text-center p-2">Completed!</h5>
+                {% else %}
+                    <div class="d-flex flex-wrap justify-content-center gap-5">
+                        <a href="{% url 'edit_task' task.id %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    
+    {% endfor %}
+</div>
+
+
+{% endblock content %}
